@@ -3,7 +3,7 @@ package com.example.quizapp;
 import com.google.firebase.firestore.DocumentId;
 
 public class QuizListModel {
-    @DocumentId
+    //@DocumentId
     private String name, desc, imgae, level, visibility;
     private long questions;
     private String quiz_id;
