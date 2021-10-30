@@ -7,21 +7,29 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements QuizListAdapter.OnQuizListItemClicked {
 
     private RecyclerView listView;
     private QuizListViewModel quizListViewModel;
     private QuizListAdapter adapter;
+    private ProgressBar listProgress;
+    private Animation fadeIn, fadeOut;
+    private NavController navController;
 
     public ListFragment() {
         // Required empty public constructor
@@ -39,11 +47,16 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
+
         listView = view.findViewById(R.id.listView);
-        adapter = new QuizListAdapter();
+        listProgress = view.findViewById(R.id.listProgress);
+        adapter = new QuizListAdapter(this);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setHasFixedSize(true);
         listView.setAdapter(adapter);
+        fadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        fadeOut = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
     }
 
     @Override
@@ -53,9 +66,18 @@ public class ListFragment extends Fragment {
         quizListViewModel.getQuizListModelData().observe(getViewLifecycleOwner(), new Observer<List<QuizListModel>>() {
             @Override
             public void onChanged(List<QuizListModel> quizListModelList) {
+                listView.startAnimation(fadeIn);
+                listProgress.startAnimation(fadeOut);
                 adapter.setQuizListModel(quizListModelList);
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        ListFragmentDirections.ActionListFragmentToDetailsFragment action = ListFragmentDirections.actionListFragmentToDetailsFragment();
+        action.setPosition(position);
+        navController.navigate(action);
     }
 }

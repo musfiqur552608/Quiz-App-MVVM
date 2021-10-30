@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
 
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:navigationBarDividerColor">@color/black</item>
     </style>
 </resources>

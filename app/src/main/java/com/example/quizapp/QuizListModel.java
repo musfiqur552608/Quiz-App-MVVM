@@ -3,18 +3,19 @@ package com.example.quizapp;
 import com.google.firebase.firestore.DocumentId;
 
 public class QuizListModel {
-    //@DocumentId
-    private String name, desc, imgae, level, visibility;
-    private long questions;
+    @DocumentId
     private String quiz_id;
+    private String name, desc, image, level, visibility;
+    private long questions;
+
 
     public QuizListModel() {
     }
 
-    public QuizListModel(String name, String desc, String imgae, String level, String visibility, long questions, String quiz_id) {
+    public QuizListModel(String name, String desc, String image, String level, String visibility, long questions, String quiz_id) {
         this.name = name;
         this.desc = desc;
-        this.imgae = imgae;
+        this.image = image;
         this.level = level;
         this.visibility = visibility;
         this.questions = questions;
@@ -37,12 +38,12 @@ public class QuizListModel {
         this.desc = desc;
     }
 
-    public String getImgae() {
-        return imgae;
+    public String getImage() {
+        return image;
     }
 
-    public void setImgae(String imgae) {
-        this.imgae = imgae;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getLevel() {

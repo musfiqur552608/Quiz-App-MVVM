@@ -10,11 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class QuizListAdapter  extends RecyclerView.Adapter<QuizListAdapter.QuizViewHolder> {
 
     private List<QuizListModel> quizListModels;
+    private OnQuizListItemClicked onQuizListItemClicked;
+
+    public QuizListAdapter(OnQuizListItemClicked onQuizListItemClicked){
+        this.onQuizListItemClicked = onQuizListItemClicked;
+    }
 
     public void setQuizListModel(List<QuizListModel> quizListModels) {
         this.quizListModels = quizListModels;
@@ -30,6 +37,15 @@ public class QuizListAdapter  extends RecyclerView.Adapter<QuizListAdapter.QuizV
     @Override
     public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
         holder.listTitle.setText(quizListModels.get(position).getName());
+        String imageUrl = quizListModels.get(position).getImage();
+        Glide.with(holder.itemView.getContext()).load(imageUrl).centerCrop().placeholder(R.drawable.placeholder_image).into(holder.listImage);
+
+        String listDerscription = quizListModels.get(position).getDesc();
+        if (listDerscription.length() > 150){
+            listDerscription = listDerscription.substring(0, 150);
+        }
+        holder.listDesc.setText(listDerscription + "...");
+        holder.listLevel.setText(quizListModels.get(position).getLevel());
     }
 
     @Override
@@ -42,7 +58,7 @@ public class QuizListAdapter  extends RecyclerView.Adapter<QuizListAdapter.QuizV
        }
     }
 
-    public class QuizViewHolder extends RecyclerView.ViewHolder {
+    public class QuizViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView listImage;
         private TextView listTitle, listDesc, listLevel;
         private Button listBtn;
@@ -54,6 +70,16 @@ public class QuizListAdapter  extends RecyclerView.Adapter<QuizListAdapter.QuizV
             listDesc = itemView.findViewById(R.id.listDesc);
             listLevel = itemView.findViewById(R.id.listDiff);
             listBtn = itemView.findViewById(R.id.listBtn);
+
+            listBtn.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onQuizListItemClicked.onItemClicked(getAdapterPosition());
+        }
+    }
+    public interface OnQuizListItemClicked{
+        void onItemClicked(int position);
     }
 }

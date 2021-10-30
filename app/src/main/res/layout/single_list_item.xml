@@ -8,15 +8,35 @@
     android:background="@drawable/dark_bg">
 
 
-    <ImageView
-        android:id="@+id/listImage"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/quizCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        android:background="@color/black"
+        app:cardCornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/placeholder_image" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/listImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_image" />
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/imageCoverView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:translationZ="10dp"
+        android:background="@drawable/image_cover"
+        app:layout_constraintBottom_toBottomOf="@+id/quizCard"
+        app:layout_constraintEnd_toEndOf="@+id/quizCard"
+        app:layout_constraintStart_toStartOf="@+id/quizCard" />
+
 
     <TextView
         android:id="@+id/listTitle"
@@ -29,18 +49,20 @@
         android:textColor="#FFEB3B"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listImage" />
+        app:layout_constraintTop_toBottomOf="@+id/quizCard" />
 
     <TextView
         android:id="@+id/listDesc"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:fontFamily="@font/work_sans"
         android:text="Quiz Description"
         android:textColor="@color/white"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listTitle"
         app:lineHeight="28dp" />
@@ -66,7 +88,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/outline_btn"
-
         android:fontFamily="@font/work_sans"
         android:padding="12dp"
         android:text="View Quiz"
